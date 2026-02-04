@@ -1,0 +1,7 @@
+project_id = "cgkjrxkhxnlgkandriix"
+
+[functions.deepgram-token]
+verify_jwt = false
+
+[functions.extract-variables]
+verify_jwt = false
