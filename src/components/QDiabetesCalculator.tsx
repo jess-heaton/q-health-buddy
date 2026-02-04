@@ -4,6 +4,7 @@ import { RiskResult } from "@/components/RiskResult";
 import { FactorBreakdown } from "@/components/FactorBreakdown";
 import { ProjectionView } from "@/components/ProjectionView";
 import { EditForm } from "@/components/EditForm";
+import { ResultCard } from "@/components/ResultCard";
 import { FlippableCard } from "@/components/FlippableCard";
 import { SendToHeidiButton } from "@/components/SendToHeidiButton";
 import { PromptOverlay } from "@/components/PromptOverlay";
@@ -356,58 +357,57 @@ export function QDiabetesCalculator() {
             </div>
           </div>
         ) : (
-          /* Results Screen */
-          <div className="w-full flex flex-col items-center px-4 py-0">
-            {/* Main Card - Full width, constrained max width */}
-            <div className="w-full max-w-5xl rounded-3xl border border-gray-200 bg-white shadow-lg overflow-hidden">
-              <FlippableCard
-                front={
-                  result && (
-                    resultView === "score" ? (
+          /* Results Screen - Full Width Split Layout */
+          <div className="w-full flex flex-col items-center">
+            {/* Flippable Card with new Heidi-style layout */}
+            <FlippableCard
+              front={
+                result && (
+                  <ResultCard
+                    result={result}
+                    formData={formData}
+                    bmi={calculateBMI()}
+                    currentView={resultView}
+                    onViewChange={setResultView}
+                  >
+                    {resultView === "score" ? (
                       <RiskResult 
                         result={result} 
                         age={formData.age} 
                         bmi={calculateBMI()}
-                        onViewFactors={() => setResultView("factors")}
-                        onViewProjection={() => setResultView("projection")}
-                        currentView="result"
                       />
                     ) : resultView === "factors" ? (
                       <FactorBreakdown 
                         formData={formData}
                         bmi={calculateBMI()}
-                        onViewResult={() => setResultView("score")}
-                        onViewProjection={() => setResultView("projection")}
                       />
                     ) : (
                       <ProjectionView
                         formData={formData}
                         currentResult={result}
                         bmi={calculateBMI()}
-                        onViewScore={() => setResultView("score")}
-                        onViewFactors={() => setResultView("factors")}
                       />
-                    )
-                  )
-                }
-                back={
-                  <EditForm
-                    formData={formData}
-                    height={height}
-                    weight={weight}
-                    onFormDataChange={updateFormData}
-                    onHeightChange={setHeight}
-                    onWeightChange={setWeight}
-                    onRecalculate={handleRecalculate}
-                    calculateBMI={calculateBMI}
-                    onFlip={() => setIsFlipped(false)}
-                  />
-                }
-                isFlipped={isFlipped}
-                onFlip={() => setIsFlipped(!isFlipped)}
-                className="w-full"
-              />
-            </div>
+                    )}
+                  </ResultCard>
+                )
+              }
+              back={
+                <EditForm
+                  formData={formData}
+                  height={height}
+                  weight={weight}
+                  onFormDataChange={updateFormData}
+                  onHeightChange={setHeight}
+                  onWeightChange={setWeight}
+                  onRecalculate={handleRecalculate}
+                  calculateBMI={calculateBMI}
+                  onFlip={() => setIsFlipped(false)}
+                />
+              }
+              isFlipped={isFlipped}
+              onFlip={() => setIsFlipped(!isFlipped)}
+              className="w-full"
+            />
 
             {/* New Assessment Button at Bottom */}
             <div className="mt-12">
