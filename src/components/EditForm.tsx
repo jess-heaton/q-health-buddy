@@ -32,222 +32,243 @@ export function EditForm({
   onFlip,
 }: EditFormProps) {
   return (
-    <div 
-      className="h-full w-full flex flex-col bg-white rounded-xl border shadow-sm overflow-hidden"
-      style={{borderColor: '#e8dce5'}}
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* Header */}
-      <div className="px-6 py-4 border-b flex items-center justify-between" style={{borderColor: '#e8dce5', backgroundColor: '#fafafa'}}>
-        <div>
-          <h3 className="font-light text-base" style={{color: '#28030f'}}>Edit Details</h3>
-          <p className="text-xs font-light" style={{color: '#665073'}}>Adjust and recalculate</p>
+    <div className="w-full py-12 px-6 md:px-12" style={{ background: '#f9f4f1' }}>
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-stretch gap-8 md:gap-12 min-h-[480px]">
+        {/* Left Panel - Context */}
+        <div className="flex-1 flex flex-col justify-center py-8 md:py-12">
+          <p className="text-xs font-medium tracking-widest uppercase mb-4" style={{ color: '#665073' }}>
+            Edit Mode
+          </p>
+          
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6 leading-tight" style={{ color: '#28030f' }}>
+            <span className="italic">Adjust Details</span>
+          </h2>
+          
+          <p className="text-base font-light leading-relaxed mb-8 max-w-md" style={{ color: '#665073' }}>
+            Fine-tune the clinical variables if the AI extraction needs adjustment. Changes will be reflected immediately in your risk calculation.
+          </p>
+
+          <button
+            onClick={onFlip}
+            className="text-sm font-light transition-all hover:underline underline-offset-4 mb-8"
+            style={{ color: '#28030f' }}
+          >
+            ← Back to results
+          </button>
+
+          <p className="text-xs font-light" style={{ color: '#8a7a9a' }}>
+            Tap card to return to results
+          </p>
         </div>
-        <button
-          onClick={onFlip}
-          className="flex items-center gap-2 text-xs transition-colors cursor-pointer font-light"
-          style={{color: '#665073'}}
-        >
-          <RotateCw className="w-4 h-4" />
-          <span>Done</span>
-        </button>
-      </div>
 
-      {/* Scrollable content */}
-      <ScrollArea className="flex-1 px-6 py-5">
-        <div className="space-y-6 pr-4">
-          {/* Basic Info */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="text-xs font-light" style={{color: '#665073'}}>Age</Label>
-              <Input
-                type="number"
-                min={25}
-                max={84}
-                value={formData.age || ""}
-                onChange={(e) => onFormDataChange("age", parseInt(e.target.value) || undefined)}
-                className="h-9 text-sm"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-light" style={{color: '#665073'}}>Sex</Label>
-              <RadioGroup
-                value={formData.sex}
-                onValueChange={(value) => onFormDataChange("sex", value as 'male' | 'female')}
-                className="flex gap-4 h-9 items-center"
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="male" id="edit-male" />
-                  <Label htmlFor="edit-male" className="font-light text-sm cursor-pointer" style={{color: '#665073'}}>Male</Label>
+        {/* Right Panel - White Form Box */}
+        <div className="flex-1 flex items-center justify-center">
+          <div 
+            className="w-full bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Form Header */}
+            <div className="px-6 py-4 border-b border-gray-100" style={{ backgroundColor: '#fafafa' }}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-light text-base" style={{ color: '#28030f' }}>Clinical Variables</h3>
+                  <p className="text-xs font-light" style={{ color: '#665073' }}>Modify and recalculate</p>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="female" id="edit-female" />
-                  <Label htmlFor="edit-female" className="font-light text-sm cursor-pointer" style={{color: '#665073'}}>Female</Label>
-                </div>
-              </RadioGroup>
-            </div>
-          </div>
-
-          {/* Height/Weight/BMI */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label className="text-xs font-light" style={{color: '#665073'}}>Height (cm)</Label>
-              <Input
-                type="number"
-                value={height}
-                onChange={(e) => onHeightChange(e.target.value)}
-                className="h-9 text-sm"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-light" style={{color: '#665073'}}>Weight (kg)</Label>
-              <Input
-                type="number"
-                value={weight}
-                onChange={(e) => onWeightChange(e.target.value)}
-                className="h-9 text-sm"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-light" style={{color: '#665073'}}>BMI</Label>
-              <div className="h-9 flex items-center px-3 rounded-md text-sm font-light" style={{backgroundColor: '#f5e6f0', color: '#28030f'}}>
-                {calculateBMI()?.toFixed(1) || "—"}
+                <button
+                  onClick={onRecalculate}
+                  className="px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors"
+                  style={{ backgroundColor: '#28030f' }}
+                >
+                  Recalculate
+                </button>
               </div>
             </div>
-          </div>
 
-          {/* Ethnicity & Smoking */}
-          <div className="grid grid-cols-2 gap-4" style={{paddingTop: '8px', borderTop: '1px solid #e8dce5'}}>
-            <div className="space-y-2">
-              <Label className="text-xs font-light" style={{color: '#665073'}}>Ethnicity</Label>
-              <Select
-                value={formData.ethnicity?.toString()}
-                onValueChange={(value) => onFormDataChange("ethnicity", parseInt(value))}
-              >
-                <SelectTrigger className="h-9">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {ETHNICITY_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value.toString()}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-light" style={{color: '#665073'}}>Smoking</Label>
-              <Select
-                value={formData.smoking?.toString()}
-                onValueChange={(value) => onFormDataChange("smoking", parseInt(value))}
-              >
-                <SelectTrigger className="h-9">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {SMOKING_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value.toString()}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Blood Tests */}
-          <div className="grid grid-cols-2 gap-4" style={{paddingTop: '8px', borderTop: '1px solid #e8dce5'}}>
-            <div className="space-y-2">
-              <Label className="text-xs font-light" style={{color: '#665073'}}>Fasting Glucose (mmol/L)</Label>
-              <Input
-                type="number"
-                step="0.1"
-                value={formData.fastingBloodGlucose || ""}
-                onChange={(e) => onFormDataChange("fastingBloodGlucose", parseFloat(e.target.value) || undefined)}
-                className="h-9"
-                placeholder="Optional"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-xs font-light" style={{color: '#665073'}}>HbA1c (mmol/mol)</Label>
-              <Input
-                type="number"
-                step="1"
-                value={formData.hba1c || ""}
-                onChange={(e) => onFormDataChange("hba1c", parseFloat(e.target.value) || undefined)}
-                className="h-9"
-                placeholder="Optional"
-              />
-            </div>
-          </div>
-
-          {/* Medical History Checkboxes */}
-          <div className="space-y-3" style={{paddingTop: '8px', borderTop: '1px solid #e8dce5'}}>
-            <Label className="text-xs font-light" style={{color: '#665073'}}>Medical History</Label>
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { key: "familyHistoryDiabetes", label: "Family history" },
-                { key: "cardiovascularDisease", label: "CVD" },
-                { key: "treatedHypertension", label: "Hypertension" },
-                { key: "learningDisabilities", label: "Learning disabilities" },
-                { key: "mentalIllness", label: "Mental illness" },
-                { key: "corticosteroids", label: "Steroids" },
-                { key: "statins", label: "Statins" },
-                { key: "atypicalAntipsychotics", label: "Antipsychotics" },
-              ].map(({ key, label }) => (
-                <div key={key} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`edit-${key}`}
-                    checked={(formData as any)[key] || false}
-                    onCheckedChange={(checked) => onFormDataChange(key as any, checked as boolean)}
-                  />
-                  <Label htmlFor={`edit-${key}`} className="text-xs font-light cursor-pointer" style={{color: '#665073'}}>
-                    {label}
-                  </Label>
+            {/* Scrollable Form Content */}
+            <ScrollArea className="h-[400px]">
+              <div className="px-6 py-5 space-y-5">
+                {/* Basic Info */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-xs font-light" style={{ color: '#665073' }}>Age</Label>
+                    <Input
+                      type="number"
+                      min={25}
+                      max={84}
+                      value={formData.age || ""}
+                      onChange={(e) => onFormDataChange("age", parseInt(e.target.value) || undefined)}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs font-light" style={{ color: '#665073' }}>Sex</Label>
+                    <RadioGroup
+                      value={formData.sex}
+                      onValueChange={(value) => onFormDataChange("sex", value as 'male' | 'female')}
+                      className="flex gap-4 h-9 items-center"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="male" id="edit-male" />
+                        <Label htmlFor="edit-male" className="font-light text-sm cursor-pointer" style={{ color: '#665073' }}>Male</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="female" id="edit-female" />
+                        <Label htmlFor="edit-female" className="font-light text-sm cursor-pointer" style={{ color: '#665073' }}>Female</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Female-specific */}
-          {formData.sex === "female" && (
-            <div className="space-y-3" style={{paddingTop: '8px', borderTop: '1px solid #e8dce5'}}>
-              <Label className="text-xs font-light" style={{color: '#665073'}}>Women Only</Label>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="edit-pcos"
-                    checked={formData.polycysticOvaries || false}
-                    onCheckedChange={(checked) => onFormDataChange("polycysticOvaries", checked as boolean)}
-                  />
-                  <Label htmlFor="edit-pcos" className="text-xs font-light cursor-pointer" style={{color: '#665073'}}>PCOS</Label>
+                {/* Height/Weight/BMI */}
+                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
+                  <div className="space-y-2">
+                    <Label className="text-xs font-light" style={{ color: '#665073' }}>Height (cm)</Label>
+                    <Input
+                      type="number"
+                      value={height}
+                      onChange={(e) => onHeightChange(e.target.value)}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs font-light" style={{ color: '#665073' }}>Weight (kg)</Label>
+                    <Input
+                      type="number"
+                      value={weight}
+                      onChange={(e) => onWeightChange(e.target.value)}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs font-light" style={{ color: '#665073' }}>BMI</Label>
+                    <div className="h-9 flex items-center px-3 rounded-md text-sm font-medium bg-gray-100" style={{ color: '#28030f' }}>
+                      {calculateBMI()?.toFixed(1) || "—"}
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="edit-gestational"
-                    checked={formData.gestationalDiabetes || false}
-                    onCheckedChange={(checked) => onFormDataChange("gestationalDiabetes", checked as boolean)}
-                  />
-                  <Label htmlFor="edit-gestational" className="text-xs font-light cursor-pointer" style={{color: '#665073'}}>Gestational diabetes</Label>
+
+                {/* Ethnicity & Smoking */}
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-100">
+                  <div className="space-y-2">
+                    <Label className="text-xs font-light" style={{ color: '#665073' }}>Ethnicity</Label>
+                    <Select
+                      value={formData.ethnicity?.toString()}
+                      onValueChange={(value) => onFormDataChange("ethnicity", parseInt(value))}
+                    >
+                      <SelectTrigger className="h-9">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ETHNICITY_OPTIONS.map((option) => (
+                          <SelectItem key={option.value} value={option.value.toString()}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs font-light" style={{ color: '#665073' }}>Smoking</Label>
+                    <Select
+                      value={formData.smoking?.toString()}
+                      onValueChange={(value) => onFormDataChange("smoking", parseInt(value))}
+                    >
+                      <SelectTrigger className="h-9">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {SMOKING_OPTIONS.map((option) => (
+                          <SelectItem key={option.value} value={option.value.toString()}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
+
+                {/* Blood Tests */}
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-100">
+                  <div className="space-y-2">
+                    <Label className="text-xs font-light" style={{ color: '#665073' }}>Fasting Glucose</Label>
+                    <Input
+                      type="number"
+                      step="0.1"
+                      value={formData.fastingBloodGlucose || ""}
+                      onChange={(e) => onFormDataChange("fastingBloodGlucose", parseFloat(e.target.value) || undefined)}
+                      className="h-9"
+                      placeholder="mmol/L"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs font-light" style={{ color: '#665073' }}>HbA1c</Label>
+                    <Input
+                      type="number"
+                      step="1"
+                      value={formData.hba1c || ""}
+                      onChange={(e) => onFormDataChange("hba1c", parseFloat(e.target.value) || undefined)}
+                      className="h-9"
+                      placeholder="mmol/mol"
+                    />
+                  </div>
+                </div>
+
+                {/* Medical History Checkboxes */}
+                <div className="pt-4 border-t border-gray-100">
+                  <Label className="text-xs font-light mb-3 block" style={{ color: '#665073' }}>Medical History</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { key: "familyHistoryDiabetes", label: "Family history" },
+                      { key: "cardiovascularDisease", label: "CVD" },
+                      { key: "treatedHypertension", label: "Hypertension" },
+                      { key: "learningDisabilities", label: "Learning disabilities" },
+                      { key: "mentalIllness", label: "Mental illness" },
+                      { key: "corticosteroids", label: "Steroids" },
+                      { key: "statins", label: "Statins" },
+                      { key: "atypicalAntipsychotics", label: "Antipsychotics" },
+                    ].map(({ key, label }) => (
+                      <div key={key} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`edit-${key}`}
+                          checked={(formData as any)[key] || false}
+                          onCheckedChange={(checked) => onFormDataChange(key as any, checked as boolean)}
+                        />
+                        <Label htmlFor={`edit-${key}`} className="text-xs font-light cursor-pointer" style={{ color: '#665073' }}>
+                          {label}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Female-specific */}
+                {formData.sex === "female" && (
+                  <div className="pt-4 border-t border-gray-100">
+                    <Label className="text-xs font-light mb-3 block" style={{ color: '#665073' }}>Women Only</Label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="edit-pcos"
+                          checked={formData.polycysticOvaries || false}
+                          onCheckedChange={(checked) => onFormDataChange("polycysticOvaries", checked as boolean)}
+                        />
+                        <Label htmlFor="edit-pcos" className="text-xs font-light cursor-pointer" style={{ color: '#665073' }}>PCOS</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="edit-gestational"
+                          checked={formData.gestationalDiabetes || false}
+                          onCheckedChange={(checked) => onFormDataChange("gestationalDiabetes", checked as boolean)}
+                        />
+                        <Label htmlFor="edit-gestational" className="text-xs font-light cursor-pointer" style={{ color: '#665073' }}>Gestational diabetes</Label>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-          )}
+            </ScrollArea>
+          </div>
         </div>
-      </ScrollArea>
-
-      {/* Footer */}
-      <div className="px-6 py-4 border-t" style={{borderColor: '#e8dce5', backgroundColor: '#fafafa'}}>
-        <button 
-          onClick={onRecalculate} 
-          className="w-full py-2 text-white font-light rounded-lg transition-colors text-sm"
-          style={{backgroundColor: '#c23a6a'}}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#a6255c')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#c23a6a')}
-        >
-          Recalculate Risk
-        </button>
       </div>
     </div>
   );
