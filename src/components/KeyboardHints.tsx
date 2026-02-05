@@ -1,4 +1,4 @@
-import { ChevronUp } from "lucide-react";
+import { ChevronUp, Keyboard } from "lucide-react";
 
 interface KeyboardHintsProps {
   isVisible: boolean;
@@ -11,12 +11,14 @@ export function KeyboardHints({ isVisible, onToggle, isListening }: KeyboardHint
     <div className="fixed bottom-6 left-6 z-40">
       {isVisible ? (
         <div 
-          className="p-4 rounded-xl shadow-sm border border-gray-300 bg-white"
+          className="p-5 rounded-2xl shadow-sm border"
+          style={{ backgroundColor: '#fcfaf8', borderColor: '#e8dce5' }}
         >
-          <div className="space-y-3 text-xs font-light text-gray-700">
+          <div className="space-y-3 text-xs font-light" style={{ color: '#665073' }}>
             <div className="flex items-center gap-3">
               <span 
-                className="px-2.5 py-1 rounded font-medium text-gray-700 border border-gray-300 bg-gray-50"
+                className="px-2.5 py-1.5 rounded-lg font-medium text-xs"
+                style={{ backgroundColor: '#fbf583', color: '#28030f' }}
               >
                 SPACE
               </span>
@@ -24,30 +26,32 @@ export function KeyboardHints({ isVisible, onToggle, isListening }: KeyboardHint
             </div>
             <div className="flex items-center gap-3">
               <span 
-                className="px-2.5 py-1 rounded font-medium text-gray-700 border border-gray-300 bg-gray-50"
+                className="px-2.5 py-1.5 rounded-lg font-medium text-xs"
+                style={{ backgroundColor: '#f5e6f0', color: '#28030f' }}
               >
                 /
               </span>
-              <span>Show question prompts</span>
+              <span>View question prompts</span>
             </div>
             <div className="flex items-center gap-3">
               <span 
-                className="px-2.5 py-1 rounded font-medium text-gray-700 border border-gray-300 bg-gray-50"
+                className="px-2.5 py-1.5 rounded-lg font-medium text-xs"
+                style={{ backgroundColor: '#f5e6f0', color: '#28030f' }}
               >
                 M
               </span>
-              <span>View calculators</span>
+              <span>Browse calculators</span>
             </div>
           </div>
           
           {/* Recording Status */}
           {isListening && (
-            <div className="mt-4 pt-3 border-t border-gray-200 flex items-center gap-2">
+            <div className="mt-4 pt-3 border-t flex items-center gap-2" style={{ borderColor: '#e8dce5' }}>
               <div 
                 className="w-2 h-2 rounded-full animate-pulse"
-                style={{backgroundColor: '#efeb7f'}}
+                style={{backgroundColor: '#fbf583'}}
               ></div>
-              <span className="text-xs font-light text-gray-600">
+              <span className="text-xs font-light" style={{ color: '#665073' }}>
                 Recording...
               </span>
             </div>
@@ -56,7 +60,8 @@ export function KeyboardHints({ isVisible, onToggle, isListening }: KeyboardHint
           {/* Collapse Button */}
           <button
             onClick={onToggle}
-            className="mt-3 w-full py-1.5 rounded-lg transition-colors text-xs font-light bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300"
+            className="mt-4 w-full py-2 rounded-lg transition-colors text-xs font-light"
+            style={{ backgroundColor: '#f5e6f0', color: '#665073' }}
           >
             Hide <ChevronUp className="w-3 h-3 inline ml-1" />
           </button>
@@ -64,10 +69,11 @@ export function KeyboardHints({ isVisible, onToggle, isListening }: KeyboardHint
       ) : (
         <button
           onClick={onToggle}
-          className="p-3 rounded-full shadow-sm border border-gray-300 bg-white transition-all hover:shadow-md text-gray-700"
+          className="p-3 rounded-xl shadow-sm border transition-all hover:shadow-md"
+          style={{ backgroundColor: '#fcfaf8', borderColor: '#e8dce5', color: '#665073' }}
           title="Show keyboard shortcuts"
         >
-          <span className="text-xs font-light">?</span>
+          <Keyboard className="w-4 h-4" />
         </button>
       )}
     </div>

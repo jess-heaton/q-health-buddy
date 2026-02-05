@@ -80,21 +80,24 @@ export function CalculatorsMenu({ isOpen, onClose }: CalculatorsMenuProps) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 flex items-center justify-between px-8 py-6 border-b" style={{borderColor: '#e8dce5', backgroundColor: '#fcfaf8'}}>
+        <div className="sticky top-0 flex items-center justify-between px-8 py-6 border-b" style={{borderColor: '#e8dce5', backgroundColor: '#f9f4f1'}}>
           <div>
-            <h2 className="text-2xl font-light tracking-tight" style={{color: '#28030f'}}>
-              Clinical Calculators
+            <p className="text-xs font-medium tracking-widest uppercase mb-2" style={{color: '#665073'}}>
+              Assessment Tools
+            </p>
+            <h2 className="text-2xl font-normal tracking-tight" style={{color: '#28030f'}}>
+              <span className="italic">Clinical Calculators</span>
             </h2>
-            <p className="text-xs font-light mt-1" style={{color: '#665073'}}>
-              Evidence-based assessment tools for primary care
+            <p className="text-sm font-light mt-2" style={{color: '#665073'}}>
+              Evidence-based tools for primary care
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            style={{color: '#665073'}}
+            className="p-2.5 rounded-xl transition-colors"
+            style={{color: '#665073', backgroundColor: '#f5e6f0'}}
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -152,9 +155,9 @@ export function CalculatorsMenu({ isOpen, onClose }: CalculatorsMenuProps) {
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 px-8 py-6 border-t" style={{borderColor: '#e8dce5', backgroundColor: '#fcfaf8'}}>
+        <div className="sticky bottom-0 px-8 py-5 border-t" style={{borderColor: '#e8dce5', backgroundColor: '#f9f4f1'}}>
           <p className="text-xs font-light text-center" style={{color: '#665073'}}>
-            Press <span className="px-2 py-1 rounded bg-gray-100" style={{color: '#28030f'}}>M</span> or <span className="px-2 py-1 rounded bg-gray-100" style={{color: '#28030f'}}>ESC</span> to close
+            Press <span className="px-2.5 py-1 rounded-lg text-xs font-medium" style={{backgroundColor: '#f5e6f0', color: '#28030f'}}>M</span> or <span className="px-2.5 py-1 rounded-lg text-xs font-medium" style={{backgroundColor: '#f5e6f0', color: '#28030f'}}>ESC</span> to close
           </p>
         </div>
       </div>

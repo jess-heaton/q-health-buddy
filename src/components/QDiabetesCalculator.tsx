@@ -17,7 +17,7 @@ import {
 } from "@/lib/qdiabetes";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type ViewState = "mic" | "result";
@@ -260,7 +260,7 @@ export function QDiabetesCalculator() {
       <PromptOverlay isOpen={showPrompts} onClose={() => setShowPrompts(false)} />
       {viewState === "mic" && <KeyboardHints isVisible={showHints} onToggle={() => setShowHints(!showHints)} isListening={isListening} />}
       <CalculatorsMenu isOpen={showCalculatorsMenu} onClose={() => setShowCalculatorsMenu(false)} />
-      <main className="flex-1 flex flex-col items-center justify-start px-4 pt-8">
+      <main className="flex-1 flex flex-col items-center justify-start px-4 pt-4">
         {viewState === "mic" ? (
           /* Voice-First Input Screen - Centered & Spacious */
           <div className="w-full max-w-3xl text-center space-y-8 flex flex-col items-center">
@@ -363,32 +363,47 @@ export function QDiabetesCalculator() {
             <FlippableCard
               front={
                 result && (
-                  <ResultCard
-                    result={result}
-                    formData={formData}
-                    bmi={calculateBMI()}
-                    currentView={resultView}
-                    onViewChange={setResultView}
-                  >
-                    {resultView === "score" ? (
-                      <RiskResult 
-                        result={result} 
-                        age={formData.age} 
-                        bmi={calculateBMI()}
-                      />
-                    ) : resultView === "factors" ? (
-                      <FactorBreakdown 
-                        formData={formData}
-                        bmi={calculateBMI()}
-                      />
-                    ) : (
-                      <ProjectionView
-                        formData={formData}
-                        currentResult={result}
-                        bmi={calculateBMI()}
-                      />
-                    )}
-                  </ResultCard>
+                  <div className="relative">
+                    <ResultCard
+                      result={result}
+                      formData={formData}
+                      bmi={calculateBMI()}
+                      currentView={resultView}
+                      onViewChange={setResultView}
+                    >
+                      {resultView === "score" ? (
+                        <RiskResult 
+                          result={result} 
+                          age={formData.age} 
+                          bmi={calculateBMI()}
+                        />
+                      ) : resultView === "factors" ? (
+                        <FactorBreakdown 
+                          formData={formData}
+                          bmi={calculateBMI()}
+                        />
+                      ) : (
+                        <ProjectionView
+                          formData={formData}
+                          currentResult={result}
+                          bmi={calculateBMI()}
+                        />
+                      )}
+                    </ResultCard>
+                    {/* Send to Heidi Button */}
+                    <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8">
+                      <button
+                        onClick={(e) => e.stopPropagation()}
+                        className="group flex items-center gap-2.5 px-5 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                        style={{backgroundColor: '#fbf583', color: '#28030f'}}
+                      >
+                        <span className="text-sm font-medium tracking-wide" style={{color: '#28030f'}}>
+                          Send to Heidi
+                        </span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" style={{color: '#28030f'}} />
+                      </button>
+                    </div>
+                  </div>
                 )
               }
               back={
@@ -410,10 +425,11 @@ export function QDiabetesCalculator() {
             />
 
             {/* New Assessment Button at Bottom */}
-            <div className="mt-12">
+            <div className="mt-8">
               <button
                 onClick={handleReset}
-                className="px-8 py-3 text-sm font-light rounded-lg border border-gray-200 text-gray-700 transition-all hover:bg-gray-50 active:bg-gray-100"
+                className="px-8 py-3 text-sm font-light rounded-lg border transition-all hover:shadow-sm"
+                style={{ borderColor: '#e8dce5', color: '#665073', backgroundColor: '#fcfaf8' }}
               >
                 <RotateCcw className="w-4 h-4 inline mr-2" />
                 New Assessment
