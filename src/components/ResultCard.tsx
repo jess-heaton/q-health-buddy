@@ -43,7 +43,7 @@ export function ResultCard({
   };
 
   return (
-    <div className="w-full py-12 px-6 md:px-12" style={{ background: '#f9f4f1' }}>
+    <div className="w-full py-8 px-6 md:px-12 rounded-2xl" style={{ background: '#f9f4f1' }}>
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-stretch gap-8 md:gap-12 min-h-[480px]">
         {/* Left Panel - Navigation & Context */}
         <div className="flex-1 flex flex-col justify-center py-8 md:py-12">
@@ -53,7 +53,7 @@ export function ResultCard({
           </p>
           
           {/* Main Headline */}
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6 leading-tight" style={{ color: '#28030f' }}>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal mb-6 leading-tight" style={{ color: '#28030f' }}>
             <span className="italic">{getViewTitle()}</span>
           </h2>
           
@@ -72,10 +72,10 @@ export function ResultCard({
               className={cn(
                 "text-sm transition-all",
                 currentView === "score"
-                  ? "font-medium underline underline-offset-4"
-                  : "font-light hover:underline hover:underline-offset-4"
+                  ? "font-semibold"
+                  : "font-light opacity-70 hover:opacity-100"
               )}
-              style={{ color: currentView === "score" ? '#28030f' : '#665073' }}
+              style={{ color: '#28030f' }}
             >
               Score
             </button>
@@ -88,10 +88,10 @@ export function ResultCard({
               className={cn(
                 "text-sm transition-all",
                 currentView === "factors"
-                  ? "font-medium underline underline-offset-4"
-                  : "font-light hover:underline hover:underline-offset-4"
+                  ? "font-semibold"
+                  : "font-light opacity-70 hover:opacity-100"
               )}
-              style={{ color: currentView === "factors" ? '#28030f' : '#665073' }}
+              style={{ color: '#28030f' }}
             >
               Factors
             </button>
@@ -104,10 +104,10 @@ export function ResultCard({
               className={cn(
                 "text-sm transition-all",
                 currentView === "projection"
-                  ? "font-medium underline underline-offset-4"
-                  : "font-light hover:underline hover:underline-offset-4"
+                  ? "font-semibold"
+                  : "font-light opacity-70 hover:opacity-100"
               )}
-              style={{ color: currentView === "projection" ? '#28030f' : '#665073' }}
+              style={{ color: '#28030f' }}
             >
               Projection
             </button>
@@ -120,7 +120,7 @@ export function ResultCard({
         </div>
 
         {/* Right Panel - White Content Box */}
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex flex-col items-center justify-center">
           <div className="w-full bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden min-h-[400px]">
             {children}
           </div>
