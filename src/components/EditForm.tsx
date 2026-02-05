@@ -32,7 +32,7 @@ export function EditForm({
   onFlip,
 }: EditFormProps) {
   return (
-    <div className="w-full py-12 px-6 md:px-12" style={{ background: '#f9f4f1' }}>
+    <div className="w-full py-8 px-6 md:px-12 rounded-2xl" style={{ background: '#f9f4f1' }}>
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-stretch gap-8 md:gap-12 min-h-[480px]">
         {/* Left Panel - Context */}
         <div className="flex-1 flex flex-col justify-center py-8 md:py-12">
@@ -40,7 +40,7 @@ export function EditForm({
             Edit Mode
           </p>
           
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6 leading-tight" style={{ color: '#28030f' }}>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal mb-6 leading-tight" style={{ color: '#28030f' }}>
             <span className="italic">Adjust Details</span>
           </h2>
           
@@ -48,13 +48,19 @@ export function EditForm({
             Fine-tune the clinical variables if the AI extraction needs adjustment. Changes will be reflected immediately in your risk calculation.
           </p>
 
-          <button
-            onClick={onFlip}
-            className="text-sm font-light transition-all hover:underline underline-offset-4 mb-8"
-            style={{ color: '#28030f' }}
-          >
-            ← Back to results
-          </button>
+          {/* Navigation Link with Bold instead of Underline */}
+          <nav className="flex items-center gap-2 mb-8">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onFlip?.();
+              }}
+              className="text-sm font-semibold transition-all"
+              style={{ color: '#28030f' }}
+            >
+              ← Back to results
+            </button>
+          </nav>
 
           <p className="text-xs font-light" style={{ color: '#8a7a9a' }}>
             Tap card to return to results

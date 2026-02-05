@@ -359,51 +359,50 @@ export function QDiabetesCalculator() {
         ) : (
           /* Results Screen - Full Width Split Layout */
           <div className="w-full flex flex-col items-center">
+            {/* Send to Heidi Button - Above Card */}
+            <div className="w-full max-w-6xl flex justify-end mb-4 px-6 md:px-12">
+              <button
+                onClick={() => {}}
+                className="group flex items-center gap-2.5 px-5 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                style={{backgroundColor: '#fbf583', color: '#28030f'}}
+              >
+                <span className="text-sm font-medium tracking-wide" style={{color: '#28030f'}}>
+                  Send to Heidi
+                </span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" style={{color: '#28030f'}} />
+              </button>
+            </div>
+            
             {/* Flippable Card with new Heidi-style layout */}
             <FlippableCard
               front={
                 result && (
-                  <div className="relative">
-                    <ResultCard
-                      result={result}
-                      formData={formData}
-                      bmi={calculateBMI()}
-                      currentView={resultView}
-                      onViewChange={setResultView}
-                    >
-                      {resultView === "score" ? (
-                        <RiskResult 
-                          result={result} 
-                          age={formData.age} 
-                          bmi={calculateBMI()}
-                        />
-                      ) : resultView === "factors" ? (
-                        <FactorBreakdown 
-                          formData={formData}
-                          bmi={calculateBMI()}
-                        />
-                      ) : (
-                        <ProjectionView
-                          formData={formData}
-                          currentResult={result}
-                          bmi={calculateBMI()}
-                        />
-                      )}
-                    </ResultCard>
-                    {/* Send to Heidi Button */}
-                    <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8">
-                      <button
-                        onClick={(e) => e.stopPropagation()}
-                        className="group flex items-center gap-2.5 px-5 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
-                        style={{backgroundColor: '#fbf583', color: '#28030f'}}
-                      >
-                        <span className="text-sm font-medium tracking-wide" style={{color: '#28030f'}}>
-                          Send to Heidi
-                        </span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" style={{color: '#28030f'}} />
-                      </button>
-                    </div>
-                  </div>
+                  <ResultCard
+                    result={result}
+                    formData={formData}
+                    bmi={calculateBMI()}
+                    currentView={resultView}
+                    onViewChange={setResultView}
+                  >
+                    {resultView === "score" ? (
+                      <RiskResult 
+                        result={result} 
+                        age={formData.age} 
+                        bmi={calculateBMI()}
+                      />
+                    ) : resultView === "factors" ? (
+                      <FactorBreakdown 
+                        formData={formData}
+                        bmi={calculateBMI()}
+                      />
+                    ) : (
+                      <ProjectionView
+                        formData={formData}
+                        currentResult={result}
+                        bmi={calculateBMI()}
+                      />
+                    )}
+                  </ResultCard>
                 )
               }
               back={
