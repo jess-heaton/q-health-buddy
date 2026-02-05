@@ -50,7 +50,7 @@ export function PromptOverlay({ isOpen, onClose }: PromptOverlayProps) {
               QDiabetes Variables
             </p>
             <h2 className="text-2xl font-normal tracking-tight" style={{color: '#28030f'}}>
-              <span className="italic">What We'll Ask</span>
+              <span className="italic">Question Prompts</span>
             </h2>
             <p className="text-sm font-light mt-2" style={{color: '#665073'}}>
               Speak naturally about these topics

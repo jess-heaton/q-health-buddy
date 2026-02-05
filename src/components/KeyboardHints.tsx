@@ -18,7 +18,7 @@ export function KeyboardHints({ isVisible, onToggle, isListening }: KeyboardHint
             <div className="flex items-center gap-3">
               <span 
                 className="px-2.5 py-1.5 rounded-lg font-medium text-xs"
-                style={{ backgroundColor: '#fbf583', color: '#28030f' }}
+                style={{ backgroundColor: '#f5e6f0', color: '#28030f' }}
               >
                 SPACE
               </span>
