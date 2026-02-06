@@ -257,7 +257,7 @@ export function QDiabetesCalculator() {
 
   return (
     <div className="w-full min-h-screen flex flex-col" style={{backgroundColor: '#fcfaf8'}}>
-      <PromptOverlay isOpen={showPrompts} onClose={() => setShowPrompts(false)} />
+      <PromptOverlay isOpen={showPrompts} onClose={() => setShowPrompts(false)} collectedData={{ formData, height, weight }} />
       {viewState === "mic" && <KeyboardHints isVisible={showHints} onToggle={() => setShowHints(!showHints)} isListening={isListening} />}
       <CalculatorsMenu isOpen={showCalculatorsMenu} onClose={() => setShowCalculatorsMenu(false)} />
       <main className="flex-1 flex flex-col items-center justify-start px-4 pt-2">

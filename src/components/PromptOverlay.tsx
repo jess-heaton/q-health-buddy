@@ -1,12 +1,69 @@
-import { X } from "lucide-react";
+import { X, Check } from "lucide-react";
 import { useEffect } from "react";
+import { QDiabetesInput } from "@/lib/qdiabetes";
+
+interface CollectedData {
+  formData: Partial<QDiabetesInput>;
+  height: string;
+  weight: string;
+}
 
 interface PromptOverlayProps {
   isOpen: boolean;
   onClose: () => void;
+  collectedData?: CollectedData;
 }
 
-export function PromptOverlay({ isOpen, onClose }: PromptOverlayProps) {
+// Map prompt item labels to formData keys to determine if collected
+function isCollected(item: string, data?: CollectedData): boolean {
+  if (!data) return false;
+  const { formData, height, weight } = data;
+
+  switch (item) {
+    case "Age":
+      return formData.age != null;
+    case "Sex/Gender":
+      return formData.sex != null;
+    case "Height":
+      return height !== "" && height !== "0";
+    case "Weight":
+      return weight !== "" && weight !== "0";
+    case "BMI":
+      return formData.bmi != null || (height !== "" && weight !== "");
+    case "Cardiovascular disease":
+      return formData.cardiovascularDisease === true;
+    case "Hypertension (treated)":
+      return formData.treatedHypertension === true;
+    case "Learning disabilities":
+      return formData.learningDisabilities === true;
+    case "Mental illness":
+      return formData.mentalIllness === true;
+    case "Corticosteroids":
+      return formData.corticosteroids === true;
+    case "Statins":
+      return formData.statins === true;
+    case "Antipsychotics":
+      return formData.atypicalAntipsychotics === true;
+    case "Family history of diabetes":
+      return formData.familyHistoryDiabetes === true;
+    case "Smoking status":
+      return formData.smoking != null && formData.smoking > 0;
+    case "Ethnicity":
+      return formData.ethnicity != null && formData.ethnicity > 1;
+    case "Fasting blood glucose":
+      return formData.fastingBloodGlucose != null;
+    case "HbA1c":
+      return formData.hba1c != null;
+    case "PCOS":
+      return formData.polycysticOvaries === true;
+    case "Gestational diabetes":
+      return formData.gestationalDiabetes === true;
+    default:
+      return false;
+  }
+}
+
+export function PromptOverlay({ isOpen, onClose, collectedData }: PromptOverlayProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" || e.key === "/") {
@@ -67,31 +124,46 @@ export function PromptOverlay({ isOpen, onClose }: PromptOverlayProps) {
 
         {/* Content */}
         <div className="px-8 py-8 space-y-8">
-          {prompts.map((section) => (
-            <div key={section.category}>
-              <h3 
-                className="text-xs font-semibold mb-4 uppercase tracking-widest"
-                style={{color: '#28030f'}}
-              >
-                {section.category}
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {section.items.map((item) => (
-                  <div
-                    key={item}
-                    className="p-4 rounded-xl border transition-all hover:shadow-sm"
-                    style={{
-                      borderColor: '#e8dce5',
-                      backgroundColor: '#faf8f6',
-                      color: '#665073'
-                    }}
-                  >
-                    <p className="text-sm font-light">{item}</p>
-                  </div>
-                ))}
+          {prompts.map((section) => {
+            const allCollected = section.items.every(item => isCollected(item, collectedData));
+            return (
+              <div key={section.category}>
+                <h3 
+                  className="text-xs font-semibold mb-4 uppercase tracking-widest flex items-center gap-2"
+                  style={{color: allCollected ? '#b8a8c0' : '#28030f'}}
+                >
+                  {section.category}
+                  {allCollected && (
+                    <Check className="w-3.5 h-3.5" style={{color: '#665073'}} />
+                  )}
+                </h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {section.items.map((item) => {
+                    const collected = isCollected(item, collectedData);
+                    return (
+                      <div
+                        key={item}
+                        className="p-4 rounded-xl border transition-all"
+                        style={{
+                          borderColor: collected ? '#e8dce5' : '#e8dce5',
+                          backgroundColor: collected ? '#f3f0ed' : '#faf8f6',
+                          color: collected ? '#c4b5ce' : '#665073',
+                          opacity: collected ? 0.6 : 1,
+                        }}
+                      >
+                        <p className="text-sm font-light flex items-center justify-between">
+                          <span className={collected ? 'line-through decoration-1' : ''}>{item}</span>
+                          {collected && (
+                            <Check className="w-3.5 h-3.5 ml-2 flex-shrink-0" style={{color: '#665073'}} />
+                          )}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Footer */}
