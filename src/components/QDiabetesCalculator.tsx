@@ -260,10 +260,10 @@ export function QDiabetesCalculator() {
       <PromptOverlay isOpen={showPrompts} onClose={() => setShowPrompts(false)} />
       {viewState === "mic" && <KeyboardHints isVisible={showHints} onToggle={() => setShowHints(!showHints)} isListening={isListening} />}
       <CalculatorsMenu isOpen={showCalculatorsMenu} onClose={() => setShowCalculatorsMenu(false)} />
-      <main className="flex-1 flex flex-col items-center justify-start px-4 pt-4">
+      <main className="flex-1 flex flex-col items-center justify-start px-4 pt-2">
         {viewState === "mic" ? (
           /* Voice-First Input Screen - Centered & Spacious */
-          <div className="w-full max-w-3xl text-center space-y-8 flex flex-col items-center">
+          <div className="w-full max-w-2xl text-center space-y-8 flex flex-col items-center">
             <VoiceMic 
               ref={voiceMicRef}
               onVariablesExtracted={handleVariablesExtracted}
@@ -324,15 +324,18 @@ export function QDiabetesCalculator() {
             <div className="mt-8 pt-4 border-t border-gray-200">
               <button
                 onClick={() => {
+                  const heightCm = 182;
+                  const weightKg = 90;
+                  const calculatedBmi = weightKg / ((heightCm / 100) ** 2);
                   const testData = {
-                    age: 60,
+                    age: 40,
                     sex: "male" as const,
                     ethnicity: 1,
-                    smoking: 0,
-                    bmi: 26,
+                    smoking: 2, // moderate smoker
+                    bmi: calculatedBmi,
                     familyHistoryDiabetes: false,
                     cardiovascularDisease: false,
-                    treatedHypertension: false,
+                    treatedHypertension: true,
                     learningDisabilities: false,
                     mentalIllness: false,
                     corticosteroids: false,
@@ -345,6 +348,8 @@ export function QDiabetesCalculator() {
                     townsendScore: 0,
                   };
                   setFormData(testData);
+                  setHeight(heightCm.toString());
+                  setWeight(weightKg.toString());
                   const calculatedResult = calculateQDiabetesRisk(testData);
                   setResult(calculatedResult);
                   setViewState("result");
@@ -352,27 +357,13 @@ export function QDiabetesCalculator() {
                 }}
                 className="text-xs font-light text-gray-500 hover:text-gray-700 transition-colors"
               >
-                Skip to test (Male, 60yo, BMI 26)
+                Skip to test results →
               </button>
             </div>
           </div>
         ) : (
           /* Results Screen - Full Width Split Layout */
-          <div className="w-full flex flex-col items-center">
-            {/* Send to Heidi Button - Above Card */}
-            <div className="w-full max-w-6xl flex justify-end mb-4 px-6 md:px-12">
-              <button
-                onClick={() => {}}
-                className="group flex items-center gap-2.5 px-5 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
-                style={{backgroundColor: '#fbf583', color: '#28030f'}}
-              >
-                <span className="text-sm font-medium tracking-wide" style={{color: '#28030f'}}>
-                  Send to Heidi
-                </span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" style={{color: '#28030f'}} />
-              </button>
-            </div>
-            
+          <div className="w-full flex flex-col items-center px-4 md:px-8">
             {/* Flippable Card with new Heidi-style layout */}
             <FlippableCard
               front={
@@ -423,15 +414,26 @@ export function QDiabetesCalculator() {
               className="w-full"
             />
 
-            {/* New Assessment Button at Bottom */}
-            <div className="mt-8">
+            {/* Bottom Actions Row */}
+            <div className="w-full max-w-6xl flex justify-between items-center mt-8 px-2">
               <button
                 onClick={handleReset}
-                className="px-8 py-3 text-sm font-light rounded-lg border transition-all hover:shadow-sm"
+                className="px-6 py-2.5 text-sm font-light rounded-lg border transition-all hover:shadow-sm"
                 style={{ borderColor: '#e8dce5', color: '#665073', backgroundColor: '#fcfaf8' }}
               >
                 <RotateCcw className="w-4 h-4 inline mr-2" />
                 New Assessment
+              </button>
+              
+              <button
+                onClick={() => {}}
+                className="group flex items-center gap-3 px-6 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                style={{backgroundColor: '#fbf583', color: '#28030f'}}
+              >
+                <span className="text-base font-medium tracking-wide" style={{color: '#28030f'}}>
+                  Send to Heidi
+                </span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" style={{color: '#28030f'}} />
               </button>
             </div>
           </div>
