@@ -113,8 +113,8 @@ export function CalculatorsMenu({ isOpen, onClose }: CalculatorsMenuProps) {
                     : "opacity-75"
                 }`}
                 style={{
-                  borderColor: calc.status === "available" ? '#c23a6a' : '#e8dce5',
-                  backgroundColor: calc.status === "available" ? '#fff7fa' : '#fafafa'
+                  borderColor: calc.status === "available" ? '#665073' : '#e8dce5',
+                  backgroundColor: calc.status === "available" ? '#faf7fc' : '#fafafa'
                 }}
               >
                 <div className="flex items-start justify-between mb-3">
@@ -131,7 +131,7 @@ export function CalculatorsMenu({ isOpen, onClose }: CalculatorsMenuProps) {
                   {calc.status === "available" && (
                     <div 
                       className="px-2.5 py-1 rounded-full text-xs font-light text-white"
-                      style={{backgroundColor: '#c23a6a'}}
+                      style={{backgroundColor: '#665073'}}
                     >
                       Active
                     </div>

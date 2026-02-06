@@ -32,8 +32,8 @@ export function EditForm({
   onFlip,
 }: EditFormProps) {
   return (
-    <div className="w-full py-8 px-6 md:px-12 rounded-2xl" style={{ background: '#f9f4f1' }}>
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-stretch gap-8 md:gap-12 min-h-[480px]">
+    <div className="w-full py-8 px-4 md:px-6 rounded-2xl" style={{ background: '#f9f4f1' }}>
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-stretch gap-6 md:gap-10 min-h-[480px]">
         {/* Left Panel - Context */}
         <div className="flex-1 flex flex-col justify-center py-8 md:py-12">
           <p className="text-xs font-medium tracking-widest uppercase mb-4" style={{ color: '#665073' }}>
