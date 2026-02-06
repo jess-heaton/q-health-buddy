@@ -10,6 +10,7 @@ import { SendToHeidiButton } from "@/components/SendToHeidiButton";
 import { PromptOverlay } from "@/components/PromptOverlay";
 import { KeyboardHints } from "@/components/KeyboardHints";
 import { CalculatorsMenu } from "@/components/CalculatorsMenu";
+import { HeidiPromoOverlay } from "@/components/HeidiPromoOverlay";
 import { 
   calculateQDiabetesRisk, 
   QDiabetesInput, 
@@ -35,6 +36,8 @@ export function QDiabetesCalculator() {
   const [showPrompts, setShowPrompts] = useState(false);
   const [showHints, setShowHints] = useState(true);
   const [showCalculatorsMenu, setShowCalculatorsMenu] = useState(false);
+  const [showHeidiPromo, setShowHeidiPromo] = useState(false);
+  const [hasShownHeidiPromo, setHasShownHeidiPromo] = useState(false);
   const voiceMicRef = useRef<any>(null);
   
   // Form state
@@ -85,6 +88,17 @@ export function QDiabetesCalculator() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [viewState, showPrompts, showHints, showCalculatorsMenu]);
+
+  // Show Heidi promo overlay once, 3 seconds after entering results
+  useEffect(() => {
+    if (viewState === "result" && !hasShownHeidiPromo) {
+      const timer = setTimeout(() => {
+        setShowHeidiPromo(true);
+        setHasShownHeidiPromo(true);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [viewState, hasShownHeidiPromo]);
 
   const calculateBMI = useCallback(() => {
     const h = parseFloat(height) / 100;
@@ -260,6 +274,11 @@ export function QDiabetesCalculator() {
       <PromptOverlay isOpen={showPrompts} onClose={() => setShowPrompts(false)} collectedData={{ formData, height, weight }} />
       {viewState === "mic" && <KeyboardHints isVisible={showHints} onToggle={() => setShowHints(!showHints)} isListening={isListening} />}
       <CalculatorsMenu isOpen={showCalculatorsMenu} onClose={() => setShowCalculatorsMenu(false)} />
+      <HeidiPromoOverlay
+        isVisible={showHeidiPromo}
+        onDismiss={() => setShowHeidiPromo(false)}
+        onSendToHeidi={() => {}}
+      />
       <main className="flex-1 flex flex-col items-center justify-start px-4 pt-2">
         {viewState === "mic" ? (
           /* Voice-First Input Screen - Centered & Spacious */
